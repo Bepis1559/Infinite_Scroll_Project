@@ -1,16 +1,15 @@
-import axios from "axios";
 import "./App.css";
-import { useEffect, useState } from "react";
-const demoUrl = "/photos-short-list?_page=1&_limit=5";
+import { PhotosGrid } from "./components/PhotosGrid";
+import { Skeleton } from "./components/Skeleton";
+import { useFetch } from "./customHooks/useFetch";
+// import { parseLinkHeader } from "./helpers/parseLinkHeader";
+const demoUrl = "http://127.0.0.1:3000/photos-short-list";
+
 function App() {
-  const [apiData, setApiData] = useState<photo[]>();
-  useEffect(() => {
-    const controller = new AbortController();
-    const data = axios.get(demoUrl, { signal: controller.signal });
-    setApiData(data);
-    return () => controller.abort();
-  }, []);
-  return <></>;
+  const apiData = useFetch(demoUrl);
+  return (
+    <>{apiData.isLoading ? <Skeleton /> : <PhotosGrid apiData={apiData} />}</>
+  );
 }
 
 export default App;

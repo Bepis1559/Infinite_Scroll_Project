@@ -14,7 +14,7 @@ type reducerAction = {
     data: dataTtpe;
   };
 };
-type reducerStateType = {
+export type reducerStateType = {
   data?: dataTtpe;
   isError?: boolean;
   isLoading: boolean;
@@ -47,7 +47,7 @@ function reducer(state: reducerStateType, { type, payload }: reducerAction) {
   }
 }
 
-export function useFetch(url: string, OPTIONS: postOptions): reducerStateType {
+export function useFetch(url: string, OPTIONS?: postOptions): reducerStateType {
   // const [data, setData] = useState<data>();
   // const [isLoading, setIsLoading] = useState(true);
   // const [isError, setIsError] = useState(false);
