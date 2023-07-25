@@ -1,24 +1,11 @@
 import { useEffect, useReducer } from "react";
-
-type dataTtpe = photo[];
+import { parseLinkHeader } from "../helpers/parseLinkHeader";
 
 // type useFetchReturnType = {
 //   data: dataTtpe | undefined;
 //   isLoading: boolean;
 //   isError: boolean;
 // };
-
-type reducerAction = {
-  type: "INITIALIZE" | "SUCCESS" | "ERROR" | "FINALLY";
-  payload?: {
-    data: dataTtpe;
-  };
-};
-export type reducerStateType = {
-  data?: dataTtpe;
-  isError?: boolean;
-  isLoading: boolean;
-};
 
 function reducer(state: reducerStateType, { type, payload }: reducerAction) {
   switch (type) {
@@ -29,6 +16,7 @@ function reducer(state: reducerStateType, { type, payload }: reducerAction) {
       } as reducerStateType;
     case "SUCCESS":
       return {
+        linksObject: payload?.parsedLinkObject,
         data: payload?.data,
         isLoading: false,
         isError: false,
@@ -68,9 +56,17 @@ export function useFetch(url: string, OPTIONS?: postOptions): reducerStateType {
           ...OPTIONS,
           signal: controller.signal,
         });
+        const linkHeader = response.headers.get("Link");
+        const linksObject = parseLinkHeader(linkHeader ?? "");
         if (!response.ok) throw Error(response.statusText);
         const result = await response.json();
-        dispatch({ type: "SUCCESS", payload: { data: result } });
+        dispatch({
+          type: "SUCCESS",
+          payload: {
+            data: result,
+            parsedLinkObject: linksObject as unknown as parsedLinksObject,
+          },
+        });
       } catch (error) {
         if ((error as Error)?.name === "AbortError") return;
         // setIsError(true);

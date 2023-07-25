@@ -13,8 +13,5 @@ export function parseLinkHeader(linkHeader: string) {
       parsedLinks[rel] = url;
     }
   });
-  for (const key in parsedLinks) {
-    console.log(parsedLinks[key]);
-  }
   return parsedLinks;
 }

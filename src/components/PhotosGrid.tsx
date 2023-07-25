@@ -1,12 +1,10 @@
 import { ReactElement } from "react";
-import { reducerStateType } from "../customHooks/useFetch";
 
 type props = {
-  apiData: reducerStateType;
+  photos: dataType;
 };
 
-export function PhotosGrid({ apiData }: props): ReactElement {
-  const photos = apiData.data as photo[];
+export function PhotosGrid({ photos }: props): ReactElement {
   return (
     <div className="grid">
       {photos?.map(({ id, url, thumbnailUrl }) => (
