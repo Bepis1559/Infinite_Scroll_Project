@@ -1,8 +1,8 @@
 type dataType = photo[];
 type parsedLinksObject = {
-  first: URL;
-  next: URL;
-  last: URL;
+  first: string;
+  next: string;
+  last: string;
 };
 type reducerAction = {
   type: "INITIALIZE" | "SUCCESS" | "ERROR" | "FINALLY";

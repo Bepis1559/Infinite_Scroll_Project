@@ -1,18 +1,33 @@
-import { useEffect } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import { PhotosGrid } from "./components/PhotosGrid";
-import { Skeleton } from "./components/Skeleton";
 import { useFetch } from "./customHooks/useFetch";
-// import { parseLinkHeader } from "./helpers/parseLinkHeader";
 
 function App() {
-  const url = `http://127.0.0.1:3000/photos?_page=${1}&_limit=${10}`;
+  // const [page, setPage] = useState(1);
+  const [url, setUrl] = useState(
+    `http://127.0.0.1:3000/photos?_page=${1}&_limit=${10}`,
+  );
   const { linksObject, isLoading, data: photos } = useFetch(url);
-  useEffect(() => {
-    console.log(linksObject);
-  }, [linksObject]);
+  const [photosArray, setPhotosArray] = useState<photo[]>(photos ?? []);
 
-  return <>{isLoading ? <Skeleton /> : <PhotosGrid photos={photos ?? []} />}</>;
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  function loadMore() {
+    setPhotosArray((prev) => [...(prev ?? []), ...(photos ?? [])]);
+    setUrl(linksObject?.next ?? "");
+  }
+
+  return (
+    <>
+      <button onClick={loadMore} type="button">
+        Load More
+      </button>
+
+      <PhotosGrid isLoading={isLoading} photos={photosArray ?? []} />
+
+      <div ref={sentinelRef}>Hello</div>
+    </>
+  );
 }
 
 export default App;

@@ -1,14 +1,16 @@
 import { ReactElement } from "react";
+import { Photo } from "./Photo";
 
 type props = {
   photos: dataType;
+  isLoading: boolean;
 };
 
-export function PhotosGrid({ photos }: props): ReactElement {
+export function PhotosGrid({ photos, isLoading }: props): ReactElement {
   return (
     <div className="grid">
       {photos?.map(({ id, url, thumbnailUrl }) => (
-        <img key={id} src={url} alt={thumbnailUrl} />
+        <Photo isLoading={isLoading} key={id} src={url} alt={thumbnailUrl} />
       ))}
     </div>
   );
