@@ -82,6 +82,10 @@ export function useFetch(url: string, OPTIONS?: postOptions): reducerStateType {
       }
     }
     fetchData();
+
+    // setTimeout(() => {
+    //   fetchData();
+    // }, 2000);
     return () => controller.abort();
   }, [url, OPTIONS]);
 
