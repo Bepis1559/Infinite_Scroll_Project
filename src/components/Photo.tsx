@@ -10,7 +10,7 @@ type props = {
 export function Photo({ src, alt, isLoading }: props): ReactElement {
   return (
     <>
-      {isLoading && <Skeleton />}
+      {/* {isLoading && <Skeleton />} */}
       <img className="photo" src={src} alt={alt} />
     </>
   );
